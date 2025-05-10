@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { CreateComboInput } from "../types/combos";
+import { normalizeStepList } from "../utils/normalizeNotation";
 
 const prisma = new PrismaClient();
 
@@ -11,6 +12,8 @@ export async function getCombosByUser(userId: string, gameId?: string) {
 }
 
 export async function createCombo(input: CreateComboInput) {
+  const normalizedSteps = normalizeStepList(input.steps);
+
   return prisma.combo.create({
     data: {
       name: input.name,
@@ -18,7 +21,7 @@ export async function createCombo(input: CreateComboInput) {
       gameId: input.gameId,
       userId: input.userId,
       steps: {
-        create: input.steps.map((notation, index) => ({
+        create: normalizedSteps.map((notation, index) => ({
           notation,
           order: index,
         })),
