@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: fg-combo-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    ports:
+      - "3001:3001"
+      - "5555:5555" # for prisma studio
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/fg-combo-db
+      JWT_SECRET: your_jwt_secret_here
+    volumes:
+      - .:/app
+    command: npm run dev
+
+volumes:
+  postgres_data:
