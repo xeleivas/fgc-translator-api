@@ -6,6 +6,7 @@ import { requireAdmin } from "../middleware/requireAdmin";
 const router = Router();
 
 router.get("/", gamesController.getPublishedGames);
+router.get("/:id", gamesController.getGameById);
 router.get(
   "/all",
   authenticateToken,
@@ -13,5 +14,12 @@ router.get(
   gamesController.getAllGames
 );
 router.post("/", authenticateToken, requireAdmin, gamesController.createGame);
+router.put("/:id", authenticateToken, requireAdmin, gamesController.updateGame);
+router.delete(
+  "/:id",
+  authenticateToken,
+  requireAdmin,
+  gamesController.deleteGame
+);
 
 export default router;

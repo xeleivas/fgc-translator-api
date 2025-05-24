@@ -5,4 +5,10 @@ export const CreateGameSchema = z.object({
   published: z.boolean().optional(),
 });
 
+export const UpdateGameSchema = CreateGameSchema.extend({
+  id: z.string().uuid(),
+});
+
 export type CreateGameInput = z.infer<typeof CreateGameSchema>;
+
+export type UpdateGameInput = z.infer<typeof UpdateGameSchema>;

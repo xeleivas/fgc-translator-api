@@ -4,7 +4,13 @@ const sortedAliases = Object.keys(NOTATION_ALIASES).sort(
   (a, b) => b.length - a.length
 );
 
-export function normalizeStep(step: string): string {
+/**
+ * Takes a single step of notation and replaces any aliases with the normalized numpad notation for consistency
+ *
+ * @param step - The step of notation to normalize
+ * @returns The normalized step
+ */
+export const normalizeStep = (step: string): string => {
   const lower = step.toLowerCase();
 
   for (const alias of sortedAliases) {
@@ -15,8 +21,8 @@ export function normalizeStep(step: string): string {
   }
 
   return step; // no alias matched
-}
+};
 
-export function normalizeStepList(steps: string[]): string[] {
+export const normalizeStepList = (steps: string[]): string[] => {
   return steps.map(normalizeStep);
-}
+};
